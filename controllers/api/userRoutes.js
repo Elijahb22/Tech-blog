@@ -49,5 +49,20 @@ router.post('/session', async (req, res) => {
       res.status(400).json(err);
     }
 });
-  
+
+router.post('/logout', (req, res) => {
+    try {
+      if (req.session.logged_in) {
+         // Remove the session variables
+         req.session.destroy(() => {
+           res.status(204).end();
+         });
+       } else {
+         res.status(404).end();
+       }
+    } catch (err) {
+       res.status(500).json(err);
+    }
+});
+   
 module.exports = router; 
